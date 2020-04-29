@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import HelloSerializer, ProfileSerializer
 from .models import UserProfile
-
-
+from .permissions import ProfilePermission
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 class HelloApiView(APIView):
 
     serializer_class= HelloSerializer
@@ -77,3 +78,7 @@ class HelloViewSets(ViewSet):
 class ProfileViewSet(ModelViewSet):
     serializer_class= ProfileSerializer
     queryset= UserProfile.objects.all()
+    authentication_classes= (TokenAuthentication,)
+    permission_classes= (ProfilePermission,)
+    filter_backends= (filters.SearchFilter,)
+    search_fields= ('name','email',)
