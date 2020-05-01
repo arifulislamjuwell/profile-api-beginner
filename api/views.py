@@ -7,6 +7,10 @@ from .models import UserProfile
 from .permissions import ProfilePermission
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+
+
 class HelloApiView(APIView):
 
     serializer_class= HelloSerializer
@@ -82,3 +86,6 @@ class ProfileViewSet(ModelViewSet):
     permission_classes= (ProfilePermission,)
     filter_backends= (filters.SearchFilter,)
     search_fields= ('name','email',)
+
+class UserLoginApiView(ObtainAuthToken):
+    renderer_classes= api_settings.DEFAULT_RENDERER_CLASSES
